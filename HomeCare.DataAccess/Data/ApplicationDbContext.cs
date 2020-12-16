@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace HomeCare.Data
+namespace HomeCare.DataAccess.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
