@@ -7,26 +7,26 @@ $(document).ready(function () {
 function loadDataTable() {
     dataTable = $('#tblData').DataTable({
         "ajax": {
-            "url": "/admin/category/GetAll",
+            "url": "/admin/frequency/GetAll",
             "type": "GET",
             "datatype": "json"
         },
         "columns": [
             { "data": "name", "width": "50%" },
-            { "data": "displayOrder", "width": "20%" },
+            { "data": "frequencyCount", "width": "20%" },
             {
                 "data": "id",
                 "render": function (data) {
                     return `<div class="text-center"> 
-                                <a href="/Admin/category/Upsert/${data}" class='btn btn-success text-white' style='cursor:pointer; width:120px;' >
+                                <a href="/Admin/frequency/Upsert/${data}" class='btn btn-success text-white' style='cursor:pointer; width:120px;' >
                                     <i class='far fa-edit'></i> Edit
                                 </a>
                                 &nbsp;
-                                <a class='btn btn-danger text-white' style='cursor:pointer; width:120px;' onclick=Delete('/admin/category/Delete/'+${data})>
+                                <a class='btn btn-danger text-white' style='cursor:pointer; width:120px;' onclick=Delete('/admin/frequency/Delete/'+${data})>
                                    <i class='far fa-trash-alt'></i> Delete
                                 </a>
                             </div>
-                            `;
+                        `;
                 }, "width": "30%"
             }
         ],
@@ -39,8 +39,8 @@ function loadDataTable() {
 
 function Delete(url) {
     swal({
-        title: "Are you sure you want to delete this category?",
-        text: "This action will permanently delete the category. ",
+        title: "Are you sure you want to delete this frequency?",
+        text: "This action will permanently delete the frequency. ",
         type: "warning",
         showCancelButton: true,
         confirmButtonColor: "#DD6B55",
