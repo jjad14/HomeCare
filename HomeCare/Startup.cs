@@ -12,6 +12,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using HomeCare.DataAccess.Data;
+using HomeCare.DataAccess.Data.Repository.IRepository;
+using HomeCare.DataAccess.Data.Repository;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using HomeCare.Utility;
 
 namespace HomeCare
 {
@@ -27,16 +31,34 @@ namespace HomeCare
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+            });
+
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
+                options.UseMySql(
                     Configuration.GetConnectionString("DefaultConnection")));
             
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-            
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddSingleton<IEmailSender, EmailSender>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddControllersWithViews().AddNewtonsoftJson().AddRazorRuntimeCompilation();
             
             services.AddRazorPages();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Identity/Account/Login";
+                options.LogoutPath = $"/Identity/Account/Logout";
+                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +77,8 @@ namespace HomeCare
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseCookiePolicy(); // op
 
             app.UseRouting();
 
