@@ -4,7 +4,10 @@ using System.Text;
 
 namespace HomeCare.DataAccess.Data.Repository.IRepository
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
+        ICategoryRepository Category { get; }
+
+        void Save();
     }
 }
