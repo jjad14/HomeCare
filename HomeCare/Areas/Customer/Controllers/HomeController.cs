@@ -8,6 +8,9 @@ using Microsoft.Extensions.Logging;
 using HomeCare.Models;
 using HomeCare.DataAccess.Data.Repository.IRepository;
 using HomeCare.Models.View_Models;
+using HomeCare.Utility;
+using Microsoft.AspNetCore.Http;
+using HomeCare.Extensions;
 
 namespace HomeCare.Controllers
 {
@@ -33,6 +36,40 @@ namespace HomeCare.Controllers
             };
 
             return View(HomeVM);
+        }
+
+        public IActionResult Details(int id)
+        {
+            var objFromDb = _unitOfWork.Service
+                                .GetFirstOrDefault(includeProperties: "Category,Frequency", filter: c => c.Id == id);
+
+            return View(objFromDb);
+        }
+
+        public IActionResult AddToCart(int id)
+        {
+            List<int> sessionList = new List<int>();
+
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString(SD.SessionCart)))
+            {
+                sessionList.Add(id);
+
+                HttpContext.Session.SetObject(SD.SessionCart, sessionList);
+            }
+            else
+            {
+                // retrieve the session convert it into a list, append that new service id to the list and then store the session back
+                sessionList = HttpContext.Session.GetObject<List<int>>(SD.SessionCart);
+
+                // f the service id does not exist inside the session list then add it
+                if (!sessionList.Contains(id))
+                {
+                    sessionList.Add(id);
+                    HttpContext.Session.SetObject(SD.SessionCart, sessionList);
+                }
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Privacy()

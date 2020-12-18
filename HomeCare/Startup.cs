@@ -49,6 +49,14 @@ namespace HomeCare
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            // Session Configuration
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             services.AddControllersWithViews().AddNewtonsoftJson().AddRazorRuntimeCompilation();
             
             services.AddRazorPages();
@@ -78,7 +86,9 @@ namespace HomeCare
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseCookiePolicy(); // op
+            app.UseSession();
+
+            app.UseCookiePolicy();
 
             app.UseRouting();
 
