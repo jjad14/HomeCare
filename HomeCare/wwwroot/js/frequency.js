@@ -52,10 +52,16 @@ function Delete(url) {
             url: url,
             success: function (data) {
                 if (data.success) {
+                    toastr.options = {
+                        "positionClass": "toast-bottom-right",
+                    };
                     toastr.success(data.message);
                     dataTable.ajax.reload();
                 }
                 else {
+                    toastr.options = {
+                        "positionClass": "toast-bottom-right",
+                    };
                     toastr.error(data.message);
                 }
             }
