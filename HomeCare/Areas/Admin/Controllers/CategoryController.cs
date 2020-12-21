@@ -4,11 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using HomeCare.DataAccess.Data.Repository.IRepository;
 using HomeCare.Models;
+using HomeCare.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HomeCare.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

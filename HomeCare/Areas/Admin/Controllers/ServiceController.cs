@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using HomeCare.DataAccess.Data.Repository.IRepository;
 using HomeCare.Models;
 using HomeCare.Models.View_Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HomeCare.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class ServiceController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

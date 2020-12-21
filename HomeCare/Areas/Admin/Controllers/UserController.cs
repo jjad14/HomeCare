@@ -4,11 +4,14 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using HomeCare.DataAccess.Data.Repository.IRepository;
+using HomeCare.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HomeCare.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Admin)]
     public class UserController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
