@@ -14,6 +14,7 @@ namespace HomeCare.DataAccess.Data
         {   
         }
 
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
         public DbSet<Category> Category { get; set; }
         public DbSet<Frequency> Frequency { get; set; }
         public DbSet<Service> Service { get; set; }
