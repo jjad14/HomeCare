@@ -18,6 +18,14 @@ namespace HomeCare.DataAccess.Data.Repository
             _db = db;
         }
 
+        public void ChangeOrderStatus(int orderId, string status)
+        {
+            var objFromDb = _db.OrderHeader.FirstOrDefault(o => o.Id == orderId);
+
+            objFromDb.Status = status;
+
+            _db.SaveChanges();
+        }
 
     }
 }
