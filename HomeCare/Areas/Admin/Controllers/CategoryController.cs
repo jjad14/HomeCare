@@ -73,7 +73,10 @@ namespace HomeCare.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Json(new { data = _unitOfWork.Category.GetAll() });
+            // return Json(new { data = _unitOfWork.Category.GetAll() });
+
+            // stored procedure call
+            return Json(new { data = _unitOfWork.SP_Call.List<Category>(SD.usp_GetAllCategory, null) });
         }
 
         [HttpDelete]
