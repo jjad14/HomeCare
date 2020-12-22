@@ -16,6 +16,8 @@ using HomeCare.DataAccess.Data.Repository.IRepository;
 using HomeCare.DataAccess.Data.Repository;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using HomeCare.Utility;
+using HomeCare.DataAccess.DbInitializer;
+using HomeCare.DataAccess.Initializer;
 
 namespace HomeCare
 {
@@ -49,6 +51,9 @@ namespace HomeCare
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            // Add DbInitalizer (Seed Database)
+            services.AddScoped<IDbInitializer, DbInitializer>();
+
             // Session Configuration
             services.AddSession(options =>
             {
@@ -70,7 +75,7 @@ namespace HomeCare
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -91,6 +96,9 @@ namespace HomeCare
             app.UseCookiePolicy();
 
             app.UseRouting();
+
+            // seed database
+            dbInitializer.Initialize();
 
             app.UseAuthentication();
             app.UseAuthorization();
