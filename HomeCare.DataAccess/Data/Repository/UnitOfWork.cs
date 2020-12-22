@@ -17,6 +17,7 @@ namespace HomeCare.DataAccess.Data.Repository
             OrderHeader = new OrderHeaderRepository(_db);
             OrderDetails = new OrderDetailsRepository(_db);
             User = new UserRepository(_db);
+            WebImage = new WebImageRepository(_db);
 
             SP_Call = new SP_Call(_db);
         }
@@ -26,6 +27,7 @@ namespace HomeCare.DataAccess.Data.Repository
         public IOrderHeaderRepository OrderHeader { get; private set; }
         public IOrderDetailsRepository OrderDetails { get; private set; }
         public IUserRepository User { get; private set; }
+        public IWebImageRepository WebImage { get; private set; }
         public ISP_Call SP_Call { get; private set; }
 
         public void Dispose()

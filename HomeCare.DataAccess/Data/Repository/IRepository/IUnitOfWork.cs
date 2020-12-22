@@ -12,6 +12,7 @@ namespace HomeCare.DataAccess.Data.Repository.IRepository
         IOrderHeaderRepository OrderHeader { get; }
         IOrderDetailsRepository OrderDetails { get; }
         IUserRepository User { get; }
+        IWebImageRepository WebImage { get; }
 
         ISP_Call SP_Call { get; }
 
